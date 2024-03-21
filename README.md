@@ -2,6 +2,4 @@
 
 Task management from the command line with markdown files.
 
-Written in [gren](https://gren-lang.org/).
-
-Not ready for public consumption.
+_Coming soon._
