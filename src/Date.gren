@@ -1,0 +1,20 @@
+module Date exposing
+    ( Date
+    , fromString
+    )
+
+
+type Date =
+    Date Parts
+
+
+type alias Parts =
+    { year : Int
+    , month : Int
+    , day : Int
+    }
+
+
+fromString : String -> Date
+fromString string =
+    Debug.todo "fromString (start with tests)"

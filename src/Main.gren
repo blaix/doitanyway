@@ -1,10 +1,11 @@
 module Main exposing (main)
 
 import Ansi
+import Date exposing (Date)
 import Init
 import Node
-import Time
 import Tui
+
 
 main : Tui.Program Model Msg
 main =
@@ -16,28 +17,35 @@ main =
         , onInput = GotInput
         }
 
+
 type alias Model =
-    { ticks : Int }
+    { tasks : Array Task
+    }
+
+
+type alias Task =
+    { priority : Int
+    , due : Date
+    , scheduled : Date
+    , available : Date
+    }
+
 
 init : Node.Environment -> Init.Task { model : Model, command : Cmd Msg }
 init env =
     Node.startProgram
-        { model = { ticks = 0 }
+        { model = { tasks = [] }
         , command = Cmd.none
         }
 
+
 type Msg
-    = Tick Time.Posix
-    | GotInput Tui.Input
+    = GotInput Tui.Input
+
 
 update : Msg -> Model -> { model : Model, command : Cmd Msg }
 update msg model =
     case msg of
-        Tick _ ->
-            { model = { model | ticks = model.ticks + 1 }
-            , command = Cmd.none
-            }
-
         GotInput input ->
             { model = model
             , command = 
@@ -46,15 +54,15 @@ update msg model =
                     _ -> Cmd.none
             }
 
+
 view : Model -> String
 view model =
     String.join ""
-        [ "How high can I count? Let's see: "
-        , String.fromInt model.ticks
-        , Ansi.wrapColor Ansi.Yellow "\nPress q to quit."
+        [ "Next: parse files in model.tasks\n"
+        , Ansi.wrapColor Ansi.Yellow "Press q to quit."
         ]
 
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Time.every 1000 Tick
+    Sub.none
