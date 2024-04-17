@@ -2,8 +2,11 @@ module Main exposing (main)
 
 import Ansi
 import Date exposing (Date)
+import Dict
 import Init
 import Node
+import Stream exposing (Stream)
+import Task
 import Tui
 
 
@@ -20,6 +23,9 @@ main =
 
 type alias Model =
     { tasks : Array Task
+    , home : String
+    , stdout : Stream
+    , stderr : Stream
     }
 
 
@@ -31,16 +37,29 @@ type alias Task =
     }
 
 
+homeVar : String
+homeVar = "TASKFILES_HOME"
+
+
 init : Node.Environment -> Init.Task { model : Model, command : Cmd Msg }
 init env =
     Node.startProgram
-        { model = { tasks = [] }
-        , command = Cmd.none
+        { model = 
+            { tasks = []
+            , home = "."
+            , stdout = env.stdout
+            , stderr = env.stderr
+            }
+        , command = 
+            Node.getEnvironmentVariables
+                |> Task.map (Dict.get homeVar)
+                |> Task.perform GotHomeVar
         }
 
 
 type Msg
     = GotInput Tui.Input
+    | GotHomeVar (Maybe String)
 
 
 update : Msg -> Model -> { model : Model, command : Cmd Msg }
@@ -50,15 +69,32 @@ update msg model =
             { model = model
             , command = 
                 case input of
-                    Tui.KeyChar "q" -> Node.exit
+                    Tui.KeyChar "q" -> Node.exit |> Task.execute
                     _ -> Cmd.none
             }
 
 
+        GotHomeVar var ->
+            case var of
+                Just home ->
+                    { model = { model | home = home }
+                    , command = Cmd.none
+                    }
+
+                Nothing ->
+                    { model = model
+                    , command =
+                        Stream.sendLine model.stderr (homeVar ++ " must be set")
+                            |> Task.andThen (\_ -> Node.exitWithCode 1)
+                            |> Task.execute
+                    }
+
+
 view : Model -> String
 view model =
-    String.join ""
-        [ "Next: parse files in model.tasks\n"
+    String.join "\n"
+        [ homeVar ++ ": " ++ model.home
+        , "Next: parse files in model.tasks"
         , Ansi.wrapColor Ansi.Yellow "Press q to quit."
         ]
 

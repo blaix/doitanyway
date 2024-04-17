@@ -2,7 +2,13 @@
 
 * [X] gren-tui
 * [X] move TODOs from rust project
-* [ ] Recreate functionality of rust version
+* [ ] gren-tui bugs?:
+    * [ ] Whole screen gets cleared when view is rendered
+    * [ ] View is rendered after the error message when TASKFILES_HOME is not set
+* [ ] After node and core package releases in June:
+  * [ ] Release gren-tui update
+  * [ ] Update gren.json to point to published packages
+* [o] Recreate functionality of rust version
 * [ ] Compare speed to rust version
 * [ ] ^ Decide on rust vs gren vs something else
 * [ ] If NOT gren version, move TODOs below to whatever is the new version
