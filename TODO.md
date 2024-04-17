@@ -9,6 +9,8 @@
   * [ ] Release gren-tui update
   * [ ] Update gren.json to point to published packages
 * [o] Recreate functionality of rust version
+* [ ] Documentation:
+  * [ ] TASKFILES_HOME
 * [ ] Compare speed to rust version
 * [ ] ^ Decide on rust vs gren vs something else
 * [ ] If NOT gren version, move TODOs below to whatever is the new version
