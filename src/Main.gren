@@ -22,14 +22,14 @@ main =
 
 
 type alias Model =
-    { tasks : Array Task
+    { tasks : Array Taskfile
     , home : String
     , stdout : Stream
     , stderr : Stream
     }
 
 
-type alias Task =
+type alias Taskfile =
     { priority : Int
     , due : Date
     , scheduled : Date
