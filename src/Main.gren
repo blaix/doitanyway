@@ -51,11 +51,9 @@ init env =
             , stderr = env.stderr
             }
         , command = 
-            Cmd.none
-            -- TODO: the problem is here!
-            -- Node.getEnvironmentVariables
-            --     |> Task.map (Dict.get homeVar)
-            --     |> Task.perform GotHomeVar
+            Node.getEnvironmentVariables
+                |> Task.map (Dict.get homeVar)
+                |> Task.perform GotHomeVar
         }
 
 
@@ -94,12 +92,11 @@ update msg model =
 
 view : Model -> String
 view model =
-    "Hello"
-    -- String.join "\n"
-    --     [ homeVar ++ ": " ++ model.home
-    --     , "Next: parse files in model.tasks"
-    --     , Ansi.wrapColor Ansi.Yellow "Press q to quit."
-    --     ]
+    String.join "\n"
+        [ homeVar ++ ": " ++ model.home
+        , "Next: parse files in model.tasks"
+        , Ansi.wrapColor Ansi.Yellow "Press q to quit."
+        ]
 
 
 subscriptions : Model -> Sub Msg
