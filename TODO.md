@@ -8,7 +8,10 @@
 * [ ] After node and core package releases in June:
   * [ ] Release gren-tui update
   * [ ] Update gren.json to point to published packages
-* [o] Recreate functionality of rust version
+* [ ] Recreate functionality of rust version:
+  * [ ] Don't worry about it being 1-1...
+  * [ ] ...see http://hentzia.com/blog/gtd-with-evernote-tldr.html
+  * [ ] ...and http://hentzia.com/blog/gtd-with-evernote.html
 * [ ] Documentation:
   * [ ] TASKFILES_HOME
 * [ ] Compare speed to rust version
