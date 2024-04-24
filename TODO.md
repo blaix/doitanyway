@@ -2,9 +2,9 @@
 
 * [X] gren-tui
 * [X] move TODOs from rust project
-* [.] gren-tui bugs?:
+* [o] gren-tui bugs?:
     * [X] Whole screen gets cleared when view is rendered
-    * [ ] init command never gets run?
+    * [X] init command never gets run?
     * [ ] View is rendered after the error message when TASKFILES_HOME is not set
 * [ ] After node and core package releases in June:
   * [ ] Release gren-tui update

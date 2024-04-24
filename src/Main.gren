@@ -51,13 +51,9 @@ init env =
             , stderr = env.stderr
             }
         , command = 
-            -- TODO: This isn't getting run?
-            Stream.sendLine env.stdout "Hello!"
-                |> Task.andThen (\_ -> Node.exitWithCode 1)
-                |> Task.execute
-            -- Node.getEnvironmentVariables
-            --     |> Task.map (Dict.get homeVar)
-            --     |> Task.perform GotHomeVar
+            Node.getEnvironmentVariables
+                |> Task.map (Dict.get homeVar)
+                |> Task.perform GotHomeVar
         }
 
 
@@ -79,25 +75,19 @@ update msg model =
 
 
         GotHomeVar var ->
-            { model = model
-            , command =
-                Stream.sendLine model.stdout "Hello!"
-                    |> Task.andThen (\_ -> Node.exitWithCode 1)
-                    |> Task.execute
-            }
-            -- case var of
-            --     Just home ->
-            --         { model = { model | home = home }
-            --         , command = Cmd.none
-            --         }
+            case var of
+                Just home ->
+                    { model = { model | home = home }
+                    , command = Cmd.none
+                    }
 
-            --     Nothing ->
-            --         { model = model
-            --         , command =
-            --             Stream.sendLine model.stderr (homeVar ++ " must be set")
-            --                 |> Task.andThen (\_ -> Node.exitWithCode 1)
-            --                 |> Task.execute
-            --         }
+                Nothing ->
+                    { model = model
+                    , command =
+                        Stream.sendLine model.stderr (homeVar ++ " must be set")
+                            |> Task.andThen (\_ -> Node.exitWithCode 1)
+                            |> Task.execute
+                    }
 
 
 view : Model -> String
