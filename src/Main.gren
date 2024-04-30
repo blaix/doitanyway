@@ -1,6 +1,6 @@
 module Main exposing (main)
 
-import Ansi
+import Ansi exposing (Color(..))
 import Date exposing (Date)
 import Dict
 import Init
@@ -84,7 +84,9 @@ update msg model =
                 Nothing ->
                     { model = model
                     , command =
-                        Stream.sendLine model.stderr (homeVar ++ " must be set")
+                        ("\n" ++ homeVar ++ " must be set")
+                            |> Ansi.wrapColor Red
+                            |> Stream.sendLine model.stderr
                             |> Task.andThen (\_ -> Node.exitWithCode 1)
                             |> Task.execute
                     }
