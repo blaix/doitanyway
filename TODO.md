@@ -1,10 +1,11 @@
 * [ ] Progressive web app: native app dev is too much of a moving target
 * [ ] offline-first persistent storage. Look into:
   * [ ] CouchDB has HTTP API, perfect for gren
-  * [ ] Self-hosted with peer-to-peer sync?
+  * [ ] ...but so does ws4sqlite which is maybe simpler
+  * [ ] keep a table of sync events with field changed + timestamp, query/push changes since last sync when online
+  * [ ] insert-only schema with each field taggged with a timestamp, sync is just merging lists of inserts
   * [ ] pouchdb?
   * [ ] IndexDB on web + sqlite on server with normal event-based syncing / replay
-  * [ ] insert-only schema with each field taggged with a timestamp, sync is just merging lists of inserts
   * [ ] https://sql.js.org/ and https://github.com/WebReflection/sqlite-worker
   * [ ] https://rqlite.io/ ?
   * [ ] https://github.com/orbitinghail/sqlsync (requires react?)
