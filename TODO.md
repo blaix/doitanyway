@@ -4,6 +4,7 @@
   * [ ] IndexDB on web + sqlite on server with normal event-based syncing / replay
   * [ ] insert-only schema with each field taggged with a timestamp, sync is just merging lists of inserts
   * [ ] https://sql.js.org/ and https://github.com/WebReflection/sqlite-worker
+  * [ ] https://rqlite.io/ ?
   * [ ] https://github.com/orbitinghail/sqlsync (requires react?)
 * [ ] See PLAN and TODO in tasker repo (especially TODO#Syncing)
 * [ ] website: doitanyway.horse (DIA: Accronym and "day" in spanish :)
