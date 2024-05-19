@@ -1,6 +1,8 @@
 * [ ] Progressive web app: native app dev is too much of a moving target
 * [ ] offline-first persistent storage. Look into:
-  * [ ] pouchdb + couchdb
+  * [ ] CouchDB has HTTP API, perfect for gren
+  * [ ] Self-hosted with peer-to-peer sync?
+  * [ ] pouchdb?
   * [ ] IndexDB on web + sqlite on server with normal event-based syncing / replay
   * [ ] insert-only schema with each field taggged with a timestamp, sync is just merging lists of inserts
   * [ ] https://sql.js.org/ and https://github.com/WebReflection/sqlite-worker
