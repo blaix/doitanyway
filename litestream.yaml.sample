@@ -1,0 +1,4 @@
+dbs:
+  - path: ./prisma/todo.db
+    replicas:
+      - path: ~/Sync/backups/doitanyway/db
