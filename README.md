@@ -17,6 +17,14 @@ Create a `.env` with this in it:
 DATABASE_URL="file:./dev.db"
 ```
 
+Then:
+
+```
+npm install
+npx prisma migrate dev
+npm run dev
+```
+
 ## Database schema and syncing
 
 I need the app to work across multiple devices and offline, and I do not want to depend on a third-party for source of truth.
@@ -32,18 +40,24 @@ todo
 ----
 id : String (UUID)
 title : String
-title_updated : datetime
+title_updated : Time
 note : String
-note_updated : datetime
+note_updated : Time
 due : datetime
-due_updated : datetime
+due_updated : Time
 etc...
 ```
 
-_Because I need something usable quickly, I will make it work on a single server without the `_updated` fields for now, and add syncing later._
+_Note: Because I need something usable quickly, I will make it work on a single server without the `_updated` fields for now, and add syncing later._
+
+_Also note: datetimes will be stored as posix ints since datetimes are not supported with [sqlite strict tables](https://www.sqlite.org/stricttables.html)._
 
 **Repeating tasks**: Each iteration creates a new task with an of `[original task id]-[n]` where `n` is one more than the previous iteration.
 This will allow history tracking and prevent duplicate tasks if multiple devices iterate independently.
+
+## Changing database schema
+
+Update `prisma/schema.prisma` and run `npx prisma migrate dev` to generate a new migration.
 
 ## License
 
