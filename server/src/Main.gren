@@ -1,33 +1,83 @@
 module Main exposing (main)
 
+import Dict exposing (Dict)
 import Gen.Components.Counter
 import Node exposing (Environment)
-import Prettynice.SimpleRouter as Router
+import Prettynice
 import Prettynice.Request exposing (Request)
 import Prettynice.Response as Response exposing (Response)
+import Task
 import Transmutable.Html as H exposing (Html)
 import Transmutable.Html.Attributes as A
 
 
-main : Router.Program
+main : Prettynice.Program Model Msg
 main =
-    Router.defineProgram
+    Prettynice.defineProgram
         { init = init
-        , router = router
+        , update = update
+        , subscriptions = (\_ -> Sub.none)
+        , onRequest = GotRequest
         }
 
 
-init : Environment -> Router.Init
+-- MODEL
+
+
+type alias Model =
+    { production : Bool
+    , username : Maybe String
+    , password : Maybe String
+    }
+
+
+init : Environment -> Prettynice.Init Model Msg
 init env =
-    Router.startProgram
+    Prettynice.startProgram
         { host = "0.0.0.0"
         , port_ = 3000
         , env = env
+        , model =
+            { production = False
+            , username = Nothing
+            , password = Nothing
+            }
+        , command =
+            Node.getEnvironmentVariables
+                |> Task.perform GotEnvVars
         }
 
 
-router : Request -> Response -> Cmd msg
-router request response =
+-- UPDATE
+
+
+type Msg
+    = GotRequest Request Response
+    | GotEnvVars (Dict String String)
+
+
+update : Msg -> Model -> { model : Model, command : Cmd Msg }
+update msg model =
+    case msg of
+        GotRequest request response ->
+            { model = model
+            , command = 
+                routeRequest model request response
+            }
+
+        GotEnvVars vars ->
+            { command = Cmd.none
+            , model =
+                { model
+                    | username = Dict.get "AUTH_USER" vars
+                    , password = Dict.get "AUTH_PASS" vars
+                    , production = (Dict.get "NODE_ENV" vars) == (Just "production")
+               }
+            }
+
+
+routeRequest : Model -> Request -> Response -> Cmd Msg
+routeRequest model request response =
     case request.path of
 
         -- Root path: /
@@ -43,6 +93,38 @@ router request response =
         [ "hello", name ] ->
             response
                 |> Response.sendText ("Hello, " ++ name)
+
+        -- [ "debug" ] ->
+        --     let
+        --         username =
+        --             model.username
+        --                 |> Maybe.withDefault "Nothing"
+
+        --         password =
+        --             model.password
+        --                 |> Maybe.withDefault "Nothing"
+
+        --         production =
+        --             if model.production then
+        --                 "True"
+        --             else
+        --                 "False"
+        --     in
+        --     response
+        --         |> Response.sendHtml
+        --             { title = "debug"
+        --             , head = []
+        --             , body =
+        --                 [ H.ul []
+        --                     [ H.li []
+        --                         [ H.text <| "username: " ++ username ]
+        --                     , H.li []
+        --                         [ H.text <| "password: " ++ password ]
+        --                     , H.li []
+        --                         [ H.text <| "production: " ++ production ]
+        --                     ]
+        --                 ]
+        --             }
 
         -- all other paths
         _ ->

@@ -3,10 +3,10 @@
   "scripts": {
     "dev": "npx nodemon",
     "build": "npx prettynice build --optimize",
-    "start": "node dist/server/index.js"
+    "start": "NODE_ENV=production node dist/server/index.js"
   },
   "nodemonConfig": {
-    "exec": "npx prettynice build && npm start",
+    "exec": "npx prettynice build && node dist/server/index.js",
     "ext": "js,gren",
     "watch": [
       "{client,server}/src/**/*"

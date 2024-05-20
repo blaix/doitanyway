@@ -6,3 +6,4 @@
 *.db-*
 dist
 node_modules
+vendor/*/.git
