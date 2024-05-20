@@ -14,7 +14,7 @@ npm run dev
 Create a `.env` with this in it:
 
 ```
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="file:./todo.db"
 ```
 
 Then:
