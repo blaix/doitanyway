@@ -2,7 +2,7 @@
 
 ## Immediate MVP
 
-* [ ] prettynice scaffolding
+* [X] prettynice scaffolding
 * [ ] prisma + ws4sqlite
 * [ ] Task model: see `tasker/PLAN.md`
 * [ ] Add task form
