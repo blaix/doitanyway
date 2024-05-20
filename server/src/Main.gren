@@ -26,8 +26,7 @@ main =
 
 type alias Model =
     { production : Bool
-    , username : Maybe String
-    , password : Maybe String
+    , authToken : Maybe String
     }
 
 
@@ -39,8 +38,7 @@ init env =
         , env = env
         , model =
             { production = False
-            , username = Nothing
-            , password = Nothing
+            , authToken = Nothing
             }
         , command =
             Node.getEnvironmentVariables
@@ -62,18 +60,48 @@ update msg model =
         GotRequest request response ->
             { model = model
             , command = 
-                routeRequest model request response
+                if isAuthorized model request then
+                    routeRequest model request response
+                else
+                    unauthorized response
             }
 
         GotEnvVars vars ->
             { command = Cmd.none
             , model =
                 { model
-                    | username = Dict.get "AUTH_USER" vars
-                    , password = Dict.get "AUTH_PASS" vars
+                    -- Token should be "username:password" |> base64 encoded (per the HTTP Basic Auth spec)
+                    -- You can generate one here: https://www.debugbear.com/basic-auth-header-generator
+                    -- and set with: fly secrets set AUTH_TOKEN=[token]
+                    | authToken = Dict.get "AUTH_TOKEN" vars
                     , production = (Dict.get "NODE_ENV" vars) == (Just "production")
                }
             }
+
+
+isAuthorized : Model -> Request -> Bool
+isAuthorized model request =
+    if not model.production then
+        True
+    else
+        let
+            authHeader =
+                Dict.get "Authorization" request.headers
+                    |> Maybe.withDefault ""
+
+            authToken =
+                model.authToken
+                    |> Maybe.withDefault ""
+        in
+        authHeader == "Basic " ++ authToken
+
+
+unauthorized : Response -> Cmd Msg
+unauthorized response =
+    response
+        |> Response.setStatus 401
+        |> Response.setHeader "WWW-Authenticate" "Basic"
+        |> Response.send
 
 
 routeRequest : Model -> Request -> Response -> Cmd Msg

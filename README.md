@@ -61,7 +61,20 @@ Update `prisma/schema.prisma` and run `npx prisma migrate dev` to generate a new
 
 ## Deployment
 
-Set up to deploy to fly.io with `fly deploy`
+Set up to deploy to fly.io
+
+Production app is protected with HTTP Basic auth.
+It will look for a base64-encoded "username:password" string in the `AUTH_TOKEN` environment variable.
+You can generate one at https://www.debugbear.com/basic-auth-header-generator and save it as a secret on fly.
+For example, if your generated auth header is `Authorization: Basic abc123==` then saving it would look like this:
+
+```
+fly secrets set AUTH_TOKEN=abc123==
+```
+
+Then you can deploy your local files with:
+
+`fly deploy`
 
 See `fly.toml` and `Dockerfile` for details.
 

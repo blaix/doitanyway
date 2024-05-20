@@ -5,7 +5,7 @@
 * [X] prettynice scaffolding
 * [X] prisma
 * [X] fly deployment
-* [ ] basic auth headers
+* [X] basic auth headers
 * [ ] ws4sqlite
 * [ ] Task model: see `tasker/PLAN.md`
 * [ ] Add task form
