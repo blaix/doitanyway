@@ -3,7 +3,10 @@
 ## Immediate MVP
 
 * [X] prettynice scaffolding
-* [ ] prisma + ws4sqlite
+* [.] prisma + ws4sqlite:
+  * [X] init prisma dir for sqlite
+  * [ ] create initial todo schema: https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/introspection-typescript-postgresql
+  * [ ] create baseline migration: https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/baseline-your-database-typescript-postgresql
 * [ ] Task model: see `tasker/PLAN.md`
 * [ ] Add task form
 * [ ] GTD view: see `tasker/PLAN.md`

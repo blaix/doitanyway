@@ -3,6 +3,7 @@ mkShell {
   buildInputs = [
     bashInteractive
     nodejs_20
+    sqlite
   ];
   shellHook = ''
     export PATH="$PWD/node_modules/.bin:$PATH"

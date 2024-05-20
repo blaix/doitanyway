@@ -9,6 +9,14 @@ npm install
 npm run dev
 ```
 
+## Local development
+
+Create a `.env` with this in it:
+
+```
+DATABASE_URL="file:./dev.db"
+```
+
 ## Database schema and syncing
 
 I need the app to work across multiple devices and offline, and I do not want to depend on a third-party for source of truth.
