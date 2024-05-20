@@ -1,0 +1,67 @@
+module Main exposing (main)
+
+import Gen.Components.Counter
+import Node exposing (Environment)
+import Prettynice.SimpleRouter as Router
+import Prettynice.Request exposing (Request)
+import Prettynice.Response as Response exposing (Response)
+import Transmutable.Html as H exposing (Html)
+import Transmutable.Html.Attributes as A
+
+
+main : Router.Program
+main =
+    Router.defineProgram
+        { init = init
+        , router = router
+        }
+
+
+init : Environment -> Router.Init
+init env =
+    Router.startProgram
+        { host = "127.0.0.1"
+        , port_ = 3000
+        , env = env
+        }
+
+
+router : Request -> Response -> Cmd msg
+router request response =
+    case request.path of
+
+        -- Root path: /
+        [] -> 
+            response
+                |> Response.sendHtml
+                    { title = "My Website"
+                    , head = [ linkStylesheet ]
+                    , body = viewHomePage
+                    }
+
+        -- /hello/justin
+        [ "hello", name ] ->
+            response
+                |> Response.sendText ("Hello, " ++ name)
+
+        -- all other paths
+        _ ->
+            response
+                |> Response.setStatus 404
+                |> Response.sendText "Not found"
+
+
+viewHomePage : Array (Html msg)
+viewHomePage =
+    [ H.h1 [] [ H.text "Welcome to my website!" ]
+    , H.p [] [ H.text "I made this counter just for you." ]
+    -- This is generated during the prettynice build step from the
+    -- component defined in `client/src/Counter.gren`.
+    , Gen.Components.Counter.init { start = 0 }
+    ]
+
+
+linkStylesheet : Html msg
+linkStylesheet =
+    -- Everything in public/ will be available at the root url path.
+    H.link [ A.rel "stylesheet", A.href "/styles.css" ]

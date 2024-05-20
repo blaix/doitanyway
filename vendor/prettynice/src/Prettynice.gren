@@ -1,0 +1,257 @@
+module Prettynice exposing 
+ ( Program
+ , Config
+ , Init
+ , defineProgram
+ , startProgram
+ )
+
+ 
+{-| Use this module to define your server as a full-fledged program that can
+send commands, respond to messages, and listen for subscriptions, just like
+a normal [Node](https://packages.gren-lang.org/package/gren-lang/node) program.
+
+**Note:** If all you want to do is respond to requests with simple responses,
+look at [`Prettynice.SimpleRouter`](Prettynice.SimpleRouter) instead.
+
+Typically you will use [`defineProgram`](#defineProgram) in your `main`,
+and [`startProgram`](#startProgram) in your `init`. See below for details.
+Or check out some complete example programs that use this module:
+
+* [examples/next/server-side-state](/examples/next/server-side-state)
+* [examples/next/running-tasks](/examples/next/running-tasks)
+* [examples/next/running-commands](/examples/next/running-commands)
+
+## Defining your program
+
+@docs defineProgram, Program
+
+## Starting your program
+
+@docs startProgram, Config, Init
+
+-}
+
+import FileSystem
+import HttpServer as Http exposing (ServerError(..), Method(..))
+import HttpServer.Response as HttpResponse 
+import Init
+import Node exposing (Environment, Program)
+import Prettynice.Request exposing (Request)
+import Prettynice.Response exposing (Response)
+import Server.Static as Static exposing (ReadFileError, Mode(..))
+import Stream exposing (Stream)
+import Task exposing (Task)
+import Transmutable.Html as H
+import Transmutable.Html.Attributes as A
+import Url exposing (Url)
+
+
+{-| The definition of your Prettynice program.
+-}
+type alias Program appModel appMsg =
+    Node.Program (Model appModel) (Msg appModel appMsg)
+
+
+{-| The task that starts your program.
+It should be returned from your `init` function.
+
+You will get this from [`startProgram`](#startProgram), which you can wrap in an
+[`await`](https://packages.gren-lang.org/package/gren-lang/node/version/3.1.0/module/Init#await)
+if you need to initialize other subsystems (see the 
+[running-tasks example](https://github.com/blaix/prettynice/blob/main/examples/next/running-tasks/server/src/Main.gren)
+for an example of this).
+-}
+type alias Init appModel appMsg =
+    Init.Task { model : Model appModel, command : Cmd (Msg appModel appMsg) }
+
+
+type alias Model appModel =
+    { server : Maybe Http.Server
+    , stdout : Stream
+    , stderr : Stream
+    , host : String
+    , port_ : Int
+    , env : Environment
+    , appModel : appModel
+    , fsPermission : FileSystem.Permission
+    }
+
+
+{-| Application config. You will pass this to [`startProgram`](#startProgram).
+-}
+type alias Config appModel appMsg =
+    { host : String
+    , port_ : Int
+    , env : Environment
+    , model : appModel
+    , command : Cmd appMsg
+    }
+
+
+type alias AppUpdate appModel appMsg =
+    appMsg -> appModel -> { model : appModel, command : Cmd appMsg }
+
+
+{-| Define your Prettynice program.
+
+This will give you a [`Program`](#Program) that you can return from your `main`
+function.
+
+If you don't need the full model/update/view cycle, see
+[`Prettynice.SimpleRouter`](Prettynice.SimpleRouter) instead.
+-}
+defineProgram :
+    { init : Environment -> Init appModel appMsg
+    , update : AppUpdate appModel appMsg
+    , subscriptions : appModel -> Sub appMsg
+    , onRequest : Request -> Response -> appMsg
+    } -> Program appModel appMsg
+defineProgram app =
+    Node.defineProgram
+        { init = app.init
+        , update = update app.update app.onRequest
+        , subscriptions = subscriptions app.subscriptions
+        }
+
+
+{-| Start your server!
+
+This creates the startup task you can return from your `init` function.
+-}
+startProgram : Config appModel appMsg -> Init appModel appMsg
+startProgram config =
+    Init.await Http.initialize <| \serverPermission ->
+        Init.await FileSystem.initialize <| \fsPermission ->
+            Node.startProgram
+                { model =
+                    { server = Nothing
+                    , stdout = config.env.stdout
+                    , stderr = config.env.stderr
+                    , host = config.host
+                    , port_ = config.port_
+                    , env = config.env
+                    , appModel = config.model
+                    , fsPermission = fsPermission
+                    }
+                , command =
+                    Cmd.batch
+                        [ Cmd.map MsgToApp config.command
+                        , Task.attempt CreateServerResult <|
+                            Http.createServer serverPermission
+                                { host = config.host
+                                , port_ = config.port_
+                                }
+                        ]
+                }
+
+
+type Msg appModel appMsg
+    = CreateServerResult (Result Http.ServerError Http.Server)
+    | GotRequest Http.Request HttpResponse.Response
+    | ResponseReady Request { model : appModel, command : Cmd (Msg appModel appMsg) }
+    | MsgToApp appMsg
+
+
+update : 
+    AppUpdate appModel appMsg
+    -> (Request -> Response -> appMsg)
+    -> Msg appModel appMsg
+    -> Model appModel
+    -> { model : Model appModel, command : Cmd (Msg appModel appMsg) }
+update appUpdate onRequest msg model =
+    case msg of
+        CreateServerResult result ->
+            case result of
+                Ok server ->
+                    { model = { model | server = Just server }
+                    , command = Stream.sendLine model.stdout <|
+                        "Server started on http://" ++ model.host ++ ":" ++ String.fromInt model.port_
+                    }
+                Err (ServerError code message) ->
+                    { model = model
+                    , command = Stream.sendLine model.stderr <|
+                        "Server failed to start: " ++ code ++ "\n" ++ message
+                    }
+        
+        GotRequest req res ->
+            let
+                request = 
+                    Prettynice.Request.new req
+
+                response =
+                    Prettynice.Response.new res
+
+                appMsg =
+                    onRequest request response
+
+                appUpdateReturn =
+                    appUpdate appMsg model.appModel
+
+                appUpdateTask =
+                    Task.succeed
+                        { model = appUpdateReturn.model
+                        , command = 
+                            Cmd.batch
+                                [ Stream.sendLine model.stdout <|
+                                    Http.requestInfo req ++ ": routing to app"
+                                , Cmd.map MsgToApp appUpdateReturn.command
+                                ]
+                        }
+
+                tryStaticResponse =
+                    Static.response
+                        { fileSystemPermission = model.fsPermission
+                        , httpResponse = res
+                        , directory = "./dist/client"
+                        , mode = Normal
+                        }
+                        req.url
+                        |> Task.map 
+                            (\staticResponse ->
+                                { model = model.appModel
+                                , command =
+                                    Cmd.batch
+                                        [ Stream.sendLine model.stdout <|
+                                            Http.requestInfo req ++ ": responding with static file"
+                                        , HttpResponse.send staticResponse
+                                        ]
+                                }
+                            )
+            in
+            { model = model
+            , command = 
+                    tryStaticResponse
+                        |> Task.onError (\_ -> appUpdateTask)
+                        |> Task.perform (ResponseReady request)
+            }
+
+        ResponseReady req result ->
+            { model = { model | appModel = result.model }
+            , command = result.command
+            }
+
+        MsgToApp appMsg ->
+            let
+                appUpdateReturn =
+                    appUpdate appMsg model.appModel
+            in
+            { model = { model | appModel = appUpdateReturn.model }
+            , command = Cmd.map MsgToApp appUpdateReturn.command
+            }
+
+
+-- SUBS
+
+
+subscriptions : (appModel -> Sub appMsg) -> Model appModel -> Sub (Msg appModel appMsg)
+subscriptions appSubs model =
+    case model.server of
+        Just server ->
+            Sub.batch
+                [ Http.onRequest server GotRequest
+                , Sub.map MsgToApp <| appSubs model.appModel
+                ]
+
+        Nothing ->
+            Sub.none

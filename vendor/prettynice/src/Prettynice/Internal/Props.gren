@@ -1,0 +1,241 @@
+module Prettynice.Internal.Props exposing 
+    ( Props
+    , FieldType
+    , get
+    , encoder
+    , typeSig
+    )
+
+
+{-| Extract and encode Prettynice component props.
+
+Props define the shape of the data passed into your component when you embed it in your server-side HTML.
+They are similar to [flags in elm](https://guide.elm-lang.org/interop/flags).
+
+**This module is used internally by the framework. It is not intended to be used in your application code.**
+
+...but it may be helpful to understand how your component props are parsed and what [field types](#FieldType) are supported.
+
+@docs Props, FieldType, get, encoder, typeSig
+
+-}
+
+
+import Dict exposing (Dict)
+import Parser as P exposing ((|.), (|=), Parser, Trailing(..))
+import Set
+
+
+{-| Internal mapping of prop field name to field type.
+
+For example, props like this:
+
+    type alias Props =
+        { name : String
+        , age : Int
+        }
+
+would be represented internally like this:
+
+    Dict.fromArray
+        [ { key = "name", value = StringType }
+        , { key = "age", value = IntType }
+        ]
+
+See [`FieldType`](#FieldType) for supported types.
+-}
+type alias Props =
+    Dict String FieldType
+
+
+{-| Represents the type of a prop field.
+
+Support prop field types are:
+
+* Int
+* Float
+* String
+* Bool
+* Array
+* Maybe
+
+-}
+type FieldType
+    -- Update docs above if updating this list.
+    = IntType
+    | FloatType
+    | StringType
+    | BoolType
+    | ArrayType FieldType
+    | MaybeType FieldType
+
+
+{-| Return a string with the gren type signature for the given props.
+-}
+typeSig : Props -> String
+typeSig props =
+    let
+        fields =
+            props
+                |> Dict.foldl addFieldSig []
+                |> String.join ", "
+    in
+    "{ " ++ fields ++ " }"
+
+
+addFieldSig : String -> FieldType -> Array String -> Array String
+addFieldSig name fieldType sigs =
+    let
+        field =
+            name ++ " : " ++ (fieldTypeToString fieldType)
+    in
+    Array.pushLast field sigs
+
+
+fieldTypeToString : FieldType -> String
+fieldTypeToString fieldType =
+    case fieldType of
+        IntType ->
+            "Int"
+
+        FloatType ->
+            "Float"
+
+        StringType ->
+            "String"
+        
+        BoolType ->
+            "Bool"
+
+        ArrayType t ->
+            "(Array " ++ (fieldTypeToString t) ++ ")"
+
+        MaybeType t ->
+            "(Maybe " ++ (fieldTypeToString t) ++ ")"
+
+
+{-| Return a string with the gren code to encode the given props.
+-}
+encoder : Props -> String
+encoder props =
+    let
+        fields =
+            props
+                |> Dict.foldl addFieldEncoder []
+                |> String.join "\n        , "
+    in
+    String.replace "{{FIELDS}}" fields
+        """
+        Encode.object 
+                [ {{FIELDS}}
+                ]
+        """
+
+
+addFieldEncoder : String -> FieldType -> Array String -> Array String
+addFieldEncoder name fieldType encoders =
+    let
+        field =
+            -- Weird indentation is to look right in generated output
+            """
+            { key = "{{NAME}}"
+                      , value = {{ENCODER}} props.{{NAME}}
+                      }
+            """
+                |> String.replace "{{NAME}}" name
+                |> String.replace "{{ENCODER}}" (fieldTypeToEncoder fieldType)
+    in
+    Array.pushLast field encoders
+
+
+fieldTypeToEncoder : FieldType -> String
+fieldTypeToEncoder fieldType =
+    case fieldType of
+        IntType ->
+            "Encode.int"
+
+        FloatType ->
+            "Encode.float"
+        
+        StringType ->
+            "Encode.string"
+
+        BoolType ->
+            "Encode.bool"
+
+        ArrayType t ->
+            "(Encode.array " ++ (fieldTypeToEncoder t) ++ ")"
+
+        MaybeType t ->
+            "(Maybe.map (" ++ (fieldTypeToEncoder t) ++ ") >> Maybe.withDefault Encode.null)"
+
+
+parser : Parser (Dict String FieldType)
+parser =
+    P.succeed Dict.fromArray
+        |. P.chompUntil "type alias Props"
+        |. P.token "type alias Props"
+        |. P.spaces
+        |. P.symbol "="
+        |. P.spaces
+        |= P.sequence
+            { start = "{"
+            , end = "}"
+            , spaces = P.spaces
+            , separator = ","
+            , trailing = Forbidden
+            , item =
+                P.succeed 
+                    (\field fieldType -> 
+                        { key = field, value = fieldType }
+                    )
+                    |= P.variable
+                        { start = Char.isLower
+                        , inner = 
+                            (\c -> Char.isAlphaNum c || c == '_')
+                        , reserved = Set.empty
+                        }
+                    |. P.spaces
+                    |. P.symbol ":"
+                    |. P.spaces
+                    |= fieldParser
+            }
+
+
+fieldParser : Parser FieldType
+fieldParser =
+    P.succeed identity
+        |. P.spaces
+        -- Probably a safer way to do this ensuring balanced parens?
+        |. P.chompWhile (\c -> c == '(')
+        |. P.spaces
+        |= P.oneOf
+            [ P.succeed IntType |. P.keyword "Int"
+            , P.succeed FloatType |. P.keyword "Float"
+            , P.succeed StringType |. P.keyword "String"
+            , P.succeed BoolType |. P.keyword "Bool"
+            , P.succeed ArrayType |. P.keyword "Array"
+                |= P.lazy (\_ -> fieldParser)
+            , P.succeed MaybeType |. P.keyword "Maybe"
+                |= P.lazy (\_ -> fieldParser)
+            ]
+        |. P.spaces
+        |. P.chompWhile (\c -> c == ')')
+        |. P.spaces
+
+
+{-| Given the string contents of a component source file,
+parse the [Props](#Props) and return the result.
+-}
+get : String -> Result (Array P.DeadEnd) Props
+get content =
+    let
+        normalized =
+            content
+                -- Normalize whitespace
+                -- so we can safely do things like
+                -- chomp until "type alias Props"
+                |> String.words
+                |> String.join " "
+    in
+    P.run parser normalized

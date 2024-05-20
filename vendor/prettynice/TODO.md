@@ -1,0 +1,177 @@
+# TODO
+
+- [X] Kill exploration history and move to github
+- [X] Add example with FE components
+- [X] Mount handlers as full tea modules? Manual example only for now.
+- [X] Update main project README
+- [X] Helpful error message when compile fails from unsupported loader type
+- [X] === Get feedback on the API ===
+- [X] Client-side ports
+- [X] js console error: The script from “http://localhost:3000/main.js” was loaded even though its MIME type (“”) is not a valid JavaScript MIME type.
+- [X] Improve component codegen with a required Props record
+- [X] More supported component prop types
+- [X] Change examples to use local package path for prettynice instead of src in gren.json
+- [X] Clean up all the scattered gren.json, package.json, node_modules, etc.
+- [X] Justfile and entr for running/watching examples
+- [X] Add a form POST example
+- [X] Special characters in form data
+- [X] Custom `<head>` elements
+- [X] Fix static image handling in node `HttpServer`
+- [X] CSS example
+- [X] Response.sendBytes
+- [X] Database example using ports?
+- [X] Support Array and Maybe in Props
+- [X] Fix components nested under a parent module (e.g. client/Components/Foo/Bar.gren)
+- [X] Handle TODO comments in code. Move things here or to github issues if they don't need to be addressed yet.
+- [X] Use HttpServer.requestInfo for request logging in the terminal.
+- [X] Move build logic into cli
+- [X] Add --optimize flag to cli
+- [X] Test deeply-nested types in Props. E.g. Array (Array (Array Int))
+- [X] Improve cli interface and server startup output (with charm.sh/gum?)
+- [X] cli commands build, build --optimize, and help commands
+- [X] Switch examples to use cli npm package
+- [X] API Docs (reminder: use gren-doc-preview):
+- [X] **=== release 1.0 ===**
+- [X] Verify type safety of components in a newly installed project outside of this repo
+- [X] New project generator
+- [X] Try deploying an example project template: https://prettynice-demo.fly.dev/
+- [X] Start migrating pencils.dev
+- [X] Fix examples that say "npm start" when it should be "npm run dev"
+- [X] Update links in example READMEs to point to API docs where appropriate (e.g. linking to FieldType in component example)
+- [X] Update examples and READMEs with server-side ports drawbacks
+- [ ] Gren compiler errors losing colors in "npm run dev" output?
+- [.] Doc site:
+  - [X] Think about versioning...
+  - [o] Finish pages
+  - [o] Flesh out gren guide as needed:
+    - [X] Migrate to starlight (see convo with Robin)
+    - [X] let expressions
+    - [X] Update pattern matching page:
+    - [ ] Add functions page to appendix:
+      - [ ] partial application (currying) and pipelines (|>): see https://guide.elm-lang.org/appendix/function_types
+      - [ ] link to this from the syntax/functions page
+    - [ ] Add applications section:
+      - [ ] The Elm Architecture
+        - [ ] See evan's original tutorial on this: https://github.com/evancz/elm-architecture-tutorial/tree/2ce0f550cb6331cd5659e6a39095ce8ebfef34c0
+        - [ ] Good stuff in the lustre docs too: https://github.com/lustre-labs/lustre/blob/main/pages/guide/02-state-management.md
+      - [ ] Browser Applications
+      - [ ] Node Applications
+    - [ ] Add "gren for elm programmers" to appendix?
+    - [ ] Elaborate on the FAQ section about differences from elm
+  - [ ] Link on github project settings and README
+  - [ ] Link to relevant sections from the example READMEs
+  - [ ] Link in the error message for failed props parsing
+  - [ ] https://www.youtube.com/watch?v=jIPZlrCpwiE should probably be in the docs somewhere...
+  - [ ] Deployment example + docs.
+    - [ ] sqlite vs postgresql (easy local dev vs easy management deployment?)
+    - [ ] Fly.io vs Render.com
+    - [ ] docker?
+    - [ ] caddy as reverse proxy (and serving static)?
+- [ ] Offically announce the release:
+  - [ ] blog.blaix.com
+  - [ ] zulip
+  - [ ] mastodon
+  - [ ] discord
+  - [ ] twitter?
+- [ ] Vite support (required for pencils):
+  - [ ] FIRST: consider esbuild instead of vite:
+    - [ ] Worried vite is overkill, changes too rapidly, and has too much happening implicitly / under the hood
+    - [ ] Stuff like this is very troubling (prod vs dev inconsistencies): https://twitter.com/ryanflorence/status/1782409358057603439
+  - [ ] Use one of the gren vite plugins?:
+    - [ ] https://github.com/gabriela-sartori/vite-plugin-gren (original?)
+    - [ ] https://github.com/laurentpayot/vite-plugin-gren (links to gabriella's as "original". why was this created?)
+  - [ ] Create a prettynice-specific plugin? https://vitejs.dev/guide/api-plugin
+  - [ ] Replace `CodeGen.copyPublicDir` with vite:
+    - [ ] Configure the [public dir](https://vitejs.dev/guide/assets.html#the-public-directory)?
+    - [ ] An assets dir? Lets you have a tailwind.css that's transformed.
+    - [ ] Confusing to have both assets and public?
+    - [ ] How to make it not suck to reference assets from gren code in a way vite will recognize?
+  - [ ] Handle imports in ComponentName.js for (codemirror for pencils, etc.)
+  - [ ] `client/src/app.{js,ts}` entry point?
+  - [ ] Styling? See `pencils/notes/UI.md`
+  - [ ] On the node side:
+    - [ ] how does vite normally integration with node? https://www.npmjs.com/package/vite-node ?
+    - [ ] Handle imports - wait how is prisma working now...?
+    - [ ] `server/src/app.{js,ts}` entry point?
+    - [ ] what does this mean for `ports.js`?
+  - [ ] Nice to haves:
+    - [ ] Full-color errors and jump to editor support? https://twitter.com/rhg_dev/status/1779998936578605493
+- [ ] Experiment with nested TEA again e.g. standalone modules per route. See `examples/next/tea-modules`.
+  - [ ] LOTS of potential here! => see https://dev.to/jmpavlick/for-lack-of-a-better-name-im-calling-it-the-module-pattern-5dfi
+  - [ ] see https://discourse.elm-lang.org/t/what-are-your-thoughts-on-the-translator-pattern-for-child-parent-communication/9730
+- [ ] Experiment with htmx:
+  - [ ] See this experiment / write-up by Mario: https://github.com/supermario/elm-htmx
+  - [ ] May be able to incorporate the core 80% without using the library: https://joshi.monster/posts/build-your-own-htmx/
+  - [ ] Server-side only dynamic interactions. All logic in one place. [Grug like](https://grugbrain.dev/#grug-on-soc).
+  - [ ] Use case: add/edit/delete items from todo list.
+  - [ ] Also look at liveview
+  - [ ] ...and SSE
+- [ ] See `notes/js-task.md`. Do I need some kind of composable, Task-like interface for js functions yet (will pencils need this for db calls?)?
+  - [ ] Would [JTD](https://jsontypedef.com/) be any help here? See https://github.com/BrianHicks/elm-duet
+- [ ] **=== return to pencils migration / release 2.0? ===**
+- [ ] See https://github.com/MaeBrooks/gren-webserver - there's some cool ideas in here.
+- [ ] Look at mdgriffith's elm-prefab: https://github.com/mdgriffith/elm-prefab/tree/main/guides - cool ideas here too
+- [ ] Add a Dockerfile to the project template?
+- [ ] Add tests to the template app
+- [ ] Add `__filename` to Node env, `splitPath` to FileSystem, and replace cli's `dirname` port call: https://gren.zulipchat.com/#narrow/stream/376306-ideas/topic/Node.20bindings.20to.20__dirname.3F/near/425878041
+- [ ] `just publish-cli` that runs `build-cli` and validates similar to `gren package validate`
+- [ ] Unit Tests. Especially Prettynice.Internal.Props
+- [ ] Functional browser tests with playwright or similar
+- [ ] Windows support: Remove POSIX path coupling from CodeGen (Shikensu's `*Posix` functions and hardcoded "/")
+- [ ] Think about CSS post-processing:
+  - [ ] tailwind? (meh)
+  - [ ] bulma.io looks nice (no js!), maybe worth a UI package? look at https://package.elm-lang.org/packages/surprisetalk/elm-bulma/
+  - [ ] look at <https://www.npmjs.com/package/@ryannhg/css-in-elm>
+- [ ] Think about JS bundling/transpiling:
+  - [ ] vite? support importing .gren files?
+  - [ ] swc?
+- [ ] Cookies & Sessions
+- [ ] Consider: what if I want traditional Flags from js? (right now prettynice controls this to do Props)
+- [ ] [RealWorld](https://github.com/gothinkster/realworld) example app
+- [ ] Redirect helpers?
+- [ ] Handle multipart/form-data and file uploads
+- [ ] Responses that align with the request content-type (e.g. 404 that returns html, string, or json depending on the request)
+- [ ] Support records and custom types in component Props field types? See https://github.com/stil4m/elm-syntax for possible reference/example. Or worth waiting for gren-in-gren?
+- [ ] Future ideas / Experiments:
+  - [ ] component events that can trigger server-side messages: https://gist.github.com/blaix/5184b52b28f53c8019eca4a91e2fa868
+  - [ ] HTM[X|Z] integration:
+    - [ ] Form submissions? See https://remix.run/docs/en/main/components/form
+    - [ ] Server-side components?
+    - [ ] toBackend/toFrontend messages?
+    - [ ]   replacing the generated script tag with an hx-trigger? https://twitter.com/RustyVermeer/status/1784972656749768739
+    - [ ] If I just need to replace elements on the page: https://leanrada.com/htmz/
+    - [ ] What about slow connections / failed js loading? See https://www.youtube.com/watch?v=EzLGleT1yrY
+- [ ] Speed up build step. Parallelize build tasks? (codegen has to happen before client/server builds)
+- [ ] Experiment with portals. Would this help with components at all?
+  - [ ] https://react.dev/reference/react-dom/createPortal
+  - [ ] https://wolfgangschuster.wordpress.com/2023/06/21/bring-your-own-dom-part-1-portals/)?
+
+## Open questions and future ideas
+
+- [ ] No good way to get port and host from env vars for `Prettynice.startProgram`. Currently must be hard-coded or passed in via argv[].
+- [ ] Is there anything that can be done about the duplication between Prettynice.gren and Prettynice.SimpleRouter.gren?
+- [ ] Should there be a prettynice cli "serve" command?
+    - [ ] Originally tried to do this but having trouble getting server's stdout to pass through the parent process
+    - [ ] Is there any benefit over running the built server with node directly?
+- [ ] Databases:
+  - [ ] db-over-http once node HttpClient lands:
+    - [ ] couchdb / pouchdb
+    - [ ] AWS RDS Data API: https://docs.aws.amazon.com/rdsdataservice/latest/APIReference/API_ExecuteSql.html
+    - [ ] sqlite-over-http? https://github.com/proofrock/ws4sqlite
+  - [ ] expand on ports/prisma example?
+  - [ ] direct connection over tcp?:
+    - [ ] kernel bindings for node's 'net' api
+    - [ ] webcrypto for [passwords](https://www.postgresql.org/docs/current/auth-password.html)? (joeybright working on this?)
+    - [ ] example here: https://github.com/Asaye/PgDriverDemo (explanation here: https://info.deal-corner.com/post/311c1057-f94b-4b48-aadc-02de4ee5f0e0)
+    - [ ] see this old package for a simpler reference than the current node pg package: https://github.com/creationix/postgres-js
+  - [ ] See https://github.com/pghttp and elm-pghttp channel in incremental elm discord
+- [ ] SSE? Websockets?
+- [ ] SSR + hydration for components? Is there value?
+- [ ] Emails? (Mario from Lamdera recommends https://postmarkapp.com/)
+- [ ] Metrics and observability?
+  - [ ] Prometheus (integrates with Caddy https://caddyserver.com/docs/metrics)?
+  - [ ] https://opentelemetry.io/ ?
+- [ ] New Temporal API coming for dates/times? https://github.com/tc39/proposal-temporal
+- [ ] Anything to do with webcomponents?: [shoelace](https://shoelace.style/)?
+- [ ] Any ideas to steal from Lustre server components?
+- [ ] Look at mdgriffith's elm-prefab: https://github.com/mdgriffith/elm-prefab/blob/main/guides/

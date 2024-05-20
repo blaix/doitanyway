@@ -1,0 +1,58 @@
+module Prettynice.Request exposing 
+    ( Request
+    , new
+    )
+
+
+{-| HTTP requests
+
+@docs Request, new
+-}
+
+
+import Array exposing (Array)
+import Bytes exposing (Bytes)
+import Dict exposing (Dict)
+import HttpServer as Http
+import Prettynice.FormData as FormData exposing (FormData)
+import Url exposing (Url)
+
+
+{-| An incoming HTTP request record.
+-}
+type alias Request =
+    { headers : Dict String String
+    , body : Bytes
+    , formData : FormData
+    , url : Url
+    , path : Array String
+    , method : Http.Method
+    }
+
+
+{-| Turn a [Node HttpServer Request](https://packages.gren-lang.org/package/gren-lang/node/version/3.1.0/module/HttpServer#Request)
+into a Prettynice Request.
+
+You shouldn't need this in your normal application code.
+The request you get in a Prettynice request message is already a Prettynice Request.
+-}
+new : Http.Request -> Request
+new request =
+    { headers = request.headers
+    , body = request.body
+    , url = request.url
+    , method = request.method
+    , formData = toFormData request
+    , path = 
+        request.url.path
+            |> String.split "/"
+            |> Array.filter (\s -> s /= "")
+    }
+
+
+toFormData : Http.Request -> FormData
+toFormData body =
+    body
+        |> Http.bodyAsString
+        |> Maybe.withDefault ""
+        |> FormData.fromString
