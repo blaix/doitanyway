@@ -9,6 +9,34 @@ npm install
 npm run dev
 ```
 
+## Database schema and syncing
+
+I need the app to work across multiple devices and offline, and I do not want to depend on a third-party for source of truth.
+
+To accomidate this, I'm going to save a timestamp alongside each field.
+When syncing, value of most recent update wins.
+Maybe with some special logic for certain field (e.g. a string merge with diff syntax for conflicts for the note field).
+
+Should look something like this:
+
+```
+todo
+----
+id : String (UUID)
+title : String
+title_updated : datetime
+note : String
+note_updated : datetime
+due : datetime
+due_updated : datetime
+etc...
+```
+
+_Because I need something usable quickly, I will make it work on a single server without the `_updated` fields for now, and add syncing later._
+
+**Repeating tasks**: Each iteration creates a new task with an of `[original task id]-[n]` where `n` is one more than the previous iteration.
+This will allow history tracking and prevent duplicate tasks if multiple devices iterate independently.
+
 ## License
 
 Copyright (C) 2024-present Justin Blake
