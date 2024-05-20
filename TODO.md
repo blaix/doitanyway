@@ -4,6 +4,7 @@
 
 * [X] prettynice scaffolding
 * [X] prisma
+* [X] fly deployment
 * [ ] ws4sqlite
 * [ ] Task model: see `tasker/PLAN.md`
 * [ ] Add task form
@@ -16,7 +17,9 @@
 
 ## Fast follows
 
-* [ ] DB backups (and versioning?). Litestream?
+* [ ] DB backups (and versioning?):
+  * [ ] Litestream?
+  * [ ] Volume copy/fork? https://fly.io/docs/volumes/volume-manage
 * [ ] See `tasker/PLAN.md#Grouping`:
   * [ ] Projects
   * [ ] Folders

@@ -1,0 +1,8 @@
+.env
+.envrc
+.gren
+.prettynice
+*.db
+*.db-*
+dist
+node_modules

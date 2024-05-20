@@ -4,11 +4,6 @@ I decided to make my own todo app because I'm very cool and strong and my needs 
 
 It's (going to be) a progressive web app built with [prettynice](https://github.com/blaix/prettynice).
 
-```bash
-npm install
-npm run dev
-```
-
 ## Local development
 
 Create a `.env` with this in it:
@@ -17,11 +12,16 @@ Create a `.env` with this in it:
 DATABASE_URL="file:./todo.db"
 ```
 
-Then:
+Then install dependencies and run the migrations:
 
 ```
 npm install
-npx prisma migrate dev
+npx prisma migrate deploy
+```
+
+Then you can start the dev server with:
+
+```
 npm run dev
 ```
 
@@ -58,6 +58,12 @@ This will allow history tracking and prevent duplicate tasks if multiple devices
 ## Changing database schema
 
 Update `prisma/schema.prisma` and run `npx prisma migrate dev` to generate a new migration.
+
+## Deployment
+
+Set up to deploy to fly.io with `fly deploy`
+
+See `fly.toml` and `Dockerfile` for details.
 
 ## License
 
