@@ -6,6 +6,7 @@
 * [X] prisma
 * [X] fly deployment
 * [X] basic auth headers
+* [ ] fly deploy failing. Can't find gren-lang/core#4.0.1 on github?
 * [ ] ws4sqlite
 * [ ] Task model: see `tasker/PLAN.md`
 * [ ] Add task form
