@@ -18,6 +18,7 @@
 
 ## Fast follows
 
+* [ ] DB backups (and versioning?). Litestream?
 * [ ] See `tasker/PLAN.md#Grouping`:
   * [ ] Projects
   * [ ] Folders
