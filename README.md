@@ -67,7 +67,7 @@ Instructions should be similar for other hosts though.
 
 * Deploy as a node service.
 * Build command: `npm install && npm run build`
-* Start command: `npm start`
+* Start command: `npx prisma migrate deploy && npm start`
 
 Under advanced options:
 
