@@ -75,7 +75,7 @@ Instructions should be similar for other hosts though.
 Under advanced options:
 
 * Set up a persistent disk. E.g. `/var/data`
-* Add `DATABASE_URL` environment variable pointing to db on your disk, e.g. `file:/var/data/todo.db`
+* Add `DATABASE_URL` environment variable pointing to db on your disk, e.g. `file:///var/data/todo.db`
 * Add `AUTH_TOKEN` environment variable as well. See below.
 
 Production app is protected with HTTP Basic auth.
