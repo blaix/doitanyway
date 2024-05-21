@@ -59,9 +59,6 @@ This will allow history tracking and prevent duplicate tasks if multiple devices
 
 Update `prisma/schema.prisma` and run `npx prisma migrate dev` to generate a new migration.
 
-Check the generated migration and add [STRICT](https://www.sqlite.org/stricttables.html) if appropriate,
-since it is [not supported by prisma introspection](https://github.com/prisma/prisma/issues/10960).
-
 ## Deployment
 
 I recommend [Render](https://render.com/).

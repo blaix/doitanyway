@@ -7,7 +7,7 @@
 * [X] fly deployment
 * [X] basic auth headers
 * [X] fly deploy failing. Moved to render
-* [X] Make sure tables are [strict](https://www.sqlite.org/stricttables.html)
+* [ ] Make sure tables are [strict](https://www.sqlite.org/stricttables.html) (check prisma schema, migrations, and prod db)
 * [ ] ws4sqlite. See https://github.com/proofrock/ws4sqlite/discussions/47
 * [ ] move basic auth to a package? see zulip and discord discussions on base64
 * [ ] Task model: see `tasker/PLAN.md`
