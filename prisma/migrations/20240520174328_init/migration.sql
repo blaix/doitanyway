@@ -8,4 +8,4 @@ CREATE TABLE "todo" (
     "due" INTEGER,
     "do_when" INTEGER NOT NULL,
     "priority" INTEGER NOT NULL
-);
+) STRICT;

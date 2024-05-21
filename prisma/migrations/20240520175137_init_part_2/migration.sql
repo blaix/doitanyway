@@ -18,7 +18,7 @@ CREATE TABLE "new_todo" (
     "do_when" INTEGER NOT NULL,
     "priority" INTEGER NOT NULL,
     "completed_at" INTEGER
-);
+) STRICT;
 INSERT INTO "new_todo" ("do_when", "id", "note", "pause_until", "priority", "title") SELECT "do_when", "id", "note", "pause_until", "priority", "title" FROM "todo";
 DROP TABLE "todo";
 ALTER TABLE "new_todo" RENAME TO "todo";
