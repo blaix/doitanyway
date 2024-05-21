@@ -61,22 +61,26 @@ Update `prisma/schema.prisma` and run `npx prisma migrate dev` to generate a new
 
 ## Deployment
 
-Set up to deploy to fly.io
+I recommend [Render](https://render.com/).
+Dirt simple, has everything you'll need, and never had a problem with them.
+Instructions should be similar for other hosts though.
+
+* Deploy as a node service.
+* Build command: `npm install && npm run build`
+* Start command: `npm start`
+
+Under advanced options:
+
+* Set up a persistent disk. E.g. `/var/data`
+* Add `DATABASE_URL` environment variable pointing to db on your disk, e.g. `file:/var/data/todo.db`
+* Add `AUTH_TOKEN` environment variable as well. See below.
 
 Production app is protected with HTTP Basic auth.
 It will look for a base64-encoded "username:password" string in the `AUTH_TOKEN` environment variable.
-You can generate one at https://www.debugbear.com/basic-auth-header-generator and save it as a secret on fly.
-For example, if your generated auth header is `Authorization: Basic abc123==` then saving it would look like this:
+You can generate a header at https://www.debugbear.com/basic-auth-header-generator and grab the encoded part.
+For example, if your generated auth header is `Authorization: Basic abc123==` then save `abc123==` as your `AUTH_TOKEN` environment variable.
 
-```
-fly secrets set AUTH_TOKEN=abc123==
-```
-
-Then you can deploy your local files with:
-
-`fly deploy`
-
-See `fly.toml` and `Dockerfile` for details.
+If you're on render, pushes to `main` will be deployed automatically, unless you've explicitly configured it differently.
 
 ## License
 
