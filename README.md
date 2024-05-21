@@ -64,21 +64,26 @@ since it is [not supported by prisma introspection](https://github.com/prisma/pr
 
 ## Deployment
 
-There's a [`Dockerfile`](/Dockerfile) for running the app in a container on any host that supports docker.
+I recommend [Render](https://render.com/).
+Dirt simple, has everything you'll need, and never had a problem with them.
+Instructions should be similar for other hosts though.
 
-The important parts are:
+* Deploy as a node service.
+* Build command: `npm install && npm run build`
+* Start command: `npm start`
 
-* The app runs on port `3000`. This is exposed from the Dockerfile.
-* You will need to mount a persistent disk to `/var/data` in the container.
-* The sqlite db lives at `/var/data/todo.db` in the container. Set `DATABASE_URL` on the host server appropriately.
-* The site is protected with [HTTP Basic auth](https://www.debugbear.com/basic-auth-header-generator) in production. Set `AUTH_TOKEN` to a base64-encoded `username:password` string of your choosing.
+Under advanced options:
 
-If you use matching values for the disk and port on the host server, you could build and run the image with something like this:
+* Set up a persistent disk. E.g. `/var/data`
+* Add `DATABASE_URL` environment variable pointing to db on your disk, e.g. `file:///var/data/todo.db`
+* Add `AUTH_TOKEN` environment variable as well. See below.
 
-```
-docker build --tag doitanyway .
-docker run -v /var/data:/var/data -p 3000:3000 -d doitanyway
-```
+Production app is protected with HTTP Basic auth.
+It will look for a base64-encoded "username:password" string in the `AUTH_TOKEN` environment variable.
+You can generate a header at https://www.debugbear.com/basic-auth-header-generator and grab the encoded part.
+For example, if your generated auth header is `Authorization: Basic abc123==` then save `abc123==` as your `AUTH_TOKEN` environment variable.
+
+If you're on render, pushes to `main` will be deployed automatically, unless you've explicitly configured it differently.
 
 ## License
 
