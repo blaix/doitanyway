@@ -7,7 +7,8 @@
 * [X] fly deployment
 * [X] basic auth headers
 * [X] fly deploy failing. Moved to render
-* [ ] ws4sqlite
+* [ ] ws4sqlite. See https://github.com/proofrock/ws4sqlite/discussions/47
+* [ ] move basic auth to a package? see zulip and discord discussions on base64
 * [ ] Task model: see `tasker/PLAN.md`
 * [ ] Add task form
 * [ ] GTD view: see `tasker/PLAN.md`
