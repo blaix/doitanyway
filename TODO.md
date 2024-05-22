@@ -7,7 +7,9 @@
 * [X] fly deployment
 * [X] basic auth headers
 * [X] fly deploy failing. Moved to render
-* [ ] ws4sqlite. See https://github.com/proofrock/ws4sqlite/discussions/47
+* [ ] ws4sqlite
+  * [ ] or turso + libsql? (sql-over-http with no need to manage a db server)
+  * [ ] See https://github.com/proofrock/ws4sqlite/discussions/47
 * [ ] move basic auth to a package? see zulip and discord discussions on base64
 * [ ] Task model: see `tasker/PLAN.md`
 * [ ] Add task form
