@@ -18,7 +18,7 @@
 * [ ] Repeating tasks: see `tasker/PLAN.md`
 * [ ] Start dogfooding
 
-## Fast follows
+## Post-MVP
 
 * [ ] DB backups (and versioning?):
   * [ ] Litestream?
@@ -28,6 +28,7 @@
   * [ ] Folders
   * [ ] Tags
 * [ ] Offline-first PWA (see below)
+* [ ] Announce
 
 ## Offline and Syncing
 
