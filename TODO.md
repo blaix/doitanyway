@@ -1,6 +1,6 @@
 # TODO
 
-## Immediate MVP
+## Immediate MVP: web-only
 
 * [X] prettynice scaffolding
 * [X] prisma
@@ -27,9 +27,11 @@
   * [ ] Projects
   * [ ] Folders
   * [ ] Tags
-     
+* [ ] Offline-first PWA (see below)
+
 ## Offline and Syncing
 
+* [ ] IndexedDB API for Gren: https://github.com/blaix/gren-idb
 * [ ] Progressive web app: native app dev is too much of a moving target
 * [ ] See "database and syncing" section of README
 
