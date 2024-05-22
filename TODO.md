@@ -1,6 +1,6 @@
 # TODO
 
-## Immediate MVP: web-only
+## Immediate MVP: Core functionality + web/online-only
 
 * [X] prettynice scaffolding
 * [X] prisma
@@ -18,7 +18,7 @@
 * [ ] Repeating tasks: see `tasker/PLAN.md`
 * [ ] Start dogfooding
 
-## Post-MVP
+## Post-MVP: Full functionality + offline/pwa
 
 * [ ] DB backups (and versioning?):
   * [ ] Litestream?
