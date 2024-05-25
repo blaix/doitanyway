@@ -7,9 +7,9 @@
 * [X] fly deployment
 * [X] basic auth headers
 * [X] fly deploy failing. Moved to render
-* [ ] consider hetzner + nix or ansible (no containers, issues with what's installed, persistent disk orchestration, etc)
+* [ ] move basic auth to a package (will need it on pencils) see zulip and discord discussions on base64
 * [ ] ws4sqlite: See https://github.com/proofrock/ws4sqlite/discussions/47
-* [ ] move basic auth to a package? see zulip and discord discussions on base64
+* [ ] Move to hetzner: use blog posts as guide (see "Move to hetzner" section of pencils TODO)
 * [ ] Task model: see `tasker/PLAN.md`
 * [ ] Add task form
 * [ ] GTD view: see `tasker/PLAN.md`
