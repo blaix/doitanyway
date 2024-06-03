@@ -30,6 +30,9 @@
   * [ ] Tags
 * [ ] Offline-first PWA (see below)
 * [ ] Announce
+* [ ] "Note tasks"
+ * [ ] Work like taskfiles, but with gren node
+ * [ ] Gren FileSystem.watch to keep task database updated
 
 ## Offline and Syncing
 
