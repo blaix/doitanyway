@@ -17,16 +17,16 @@ cli should be named `dia` (day in spanish, plus nice do it anyway reminder)
 
 ## Syncing and Mobile
 
-* Git for sync is very appealing. I can very explicitly deal with conflicts.
-* `dia` should have nag if there are local or remote differences. (unless it's not a git repo?)
-* remote sqlite db set up for mobile convenience?
+* Sync happens the same way you'd sync any other directory of files: syncthing, dropbox, git, etc.
+* Dia does NOT manage sync for you. It will never change files implicitly.
+* remote sqlite db as a read-only view into your tasks on web and mobile
   * gren process keeps it updated using FileSystem.watch
-  * md5 hash of task file contents + project/filename as id
-  * insert where doesn't exist in db, delete where doesn't exist in filesystem
-* ws4sqlite serves db + static gren webapp:
-  * read-only view of all tasks
-  * link to github to edit task! (unless it's not a git repo?)
-  * quick-add tasks to inbox or now:
-    * adds to a mobile queue in the db
-    * `dia` pulls this on startup, creates files, and removes the entry
-    * first come first serve. rely on normal file syncing
+  * md5 hash of task file contents + project/filename as id?
+    * insert where doesn't exist in db, delete where doesn't exist in filesystem
+  * ws4sqlite serves db + static gren webapp:
+    * read-only view of all tasks
+    * edit remote file? if so, how?
+    * quick-add tasks to inbox or now:
+      * adds to a mobile queue in the db
+      * `dia` pulls this on startup, creates files, and removes the entry
+      * first come first serve. rely on normal file syncing
