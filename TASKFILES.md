@@ -1,7 +1,9 @@
 # Architecture Idea based on Taskfiles
 
-I miss the ability to work and take notes in a normal file with vimwiki and give that prioritization and due dates,
+I find myself missing the way taskfiles worked.
+Like the ability to work and take notes in a normal file with vimwiki and give that prioritization and due dates,
 vs working in obsidian and linking to it from OFO, two systems I don't fully trust and flake out on me regularly.
+Also the ability to be more adhoc about tasks within a file vs nested tasks in OFO, especially with the daily file.
 
 cli should be named `dia` (day in spanish, plus nice do it anyway reminder)
 
