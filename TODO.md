@@ -8,6 +8,7 @@
 * [X] basic auth headers
 * [X] fly deploy failing. Moved to render
 * [ ] move basic auth to a package (will need it on pencils) see [http-basic-auth](https://github.com/blaix/http-basic-auth)
+* [ ] == consider TASKFILES.md - missing the text-based approach ==
 * [ ] ws4sqlite: See https://github.com/proofrock/ws4sqlite/discussions/47
 * [ ] Move to hetzner: use blog posts as guide (see "Move to hetzner" section of pencils TODO)
 * [ ] Task model: see `tasker/PLAN.md`
