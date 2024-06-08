@@ -1,11 +1,9 @@
 # Architecture
 
 - Local filesystem as the source of truth.
-- Sync with Syncthing
-- **Let Syncthing deal with conflicts**
-- PWA for web and mobile access
-- Files as Json. Cached in IndexedDb for offline read access
-
+- Sync with Syncthing. **Let Syncthing deal with conflicts.**
+- PWA for web and mobile access with IndexedDb caching for offline.
+- Files represented over the wire and in IndexedDb as Json.
 
 ```mermaid
 flowchart
