@@ -11,24 +11,15 @@ cli should be named `dia` (day in spanish, plus nice do it anyway reminder)
 * Projects are folders
 * Frontmatter for tags, dates, and prioritization (see PLAN.md in my other GTD project attempts).
 * `dia` complains if frontmatter looks wrong
-* `_` prefixed-dirs and files are ignored. `__Done` folders for completed tasks.
-* Normal file sync (syncting, dropbox, git....) for sync. See "Syncing and Mobile" section below
-* Desktop shortcut to add tasks (files) to inbox or Now, with fields for tags, dates, and prioritization
-* Default `dia` command opens view with tasks grouped and prioritized according to my OFO sidebar/contexts
-* nvim plugins
+* `__` prefixed-dirs and files are ignored:
+  * Double prefix means I can keep using single prefix for bumping things higher in file listing (helpful on mobile)
+  * `__Done` folders for completed tasks.
+* Sync via git: Mobile and offline access for free via Working Copy app!
 
-## Syncing and Mobile
+## TODO
 
-* Sync happens the same way you'd sync any other directory of files: syncthing, dropbox, git, etc.
-* Dia does NOT manage sync for you. It will never change files implicitly.
-* remote sqlite db as a read-only view into your tasks on web and mobile
-  * gren process keeps it updated using FileSystem.watch
-  * md5 hash of task file contents + project/filename as id?
-    * insert where doesn't exist in db, delete where doesn't exist in filesystem
-  * ws4sqlite serves db + static gren webapp:
-    * read-only view of all tasks
-    * edit remote file? if so, how?
-    * quick-add tasks to inbox or now:
-      * adds to a mobile queue in the db
-      * `dia` pulls this on startup, creates files, and removes the entry
-      * first come first serve. rely on normal file syncing
+* [o] Change TASKFILES_HOME to $HOME/dia
+* [ ] Rename github taskfiles repo (the gren rewrite) to dia
+* [ ] Desktop shortcut to add tasks (files) to inbox or Now, with fields for tags, dates, and prioritization
+* [ ] Default `dia` command opens view with tasks grouped and prioritized according to my OFO sidebar/contexts
+* [ ] nvim plugins
