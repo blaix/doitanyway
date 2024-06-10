@@ -7,7 +7,6 @@
 * [X] fly deployment
 * [X] basic auth headers
 * [X] fly deploy failing. Moved to render
-* [ ] ===> REWORK: See TASKFILES.md
 * [ ] move basic auth to a package (will need it on pencils) see [http-basic-auth](https://github.com/blaix/http-basic-auth)
 * [ ] ws4sqlite: See https://github.com/proofrock/ws4sqlite/discussions/47
 * [ ] Move to hetzner: use blog posts as guide (see "Move to hetzner" section of pencils TODO)
@@ -19,6 +18,9 @@
 * [ ] Complete task
 * [ ] Repeating tasks: see `tasker/PLAN.md`
 * [ ] Start dogfooding
+* [ ] Restore things I miss about taskfiles:
+  * [ ] vim editing of tasks around people, meetings, etc.
+  * [ ] filesystem search and navigation with fzf, rg, etc.
 
 ## Post-MVP: Full functionality + offline/pwa
 
