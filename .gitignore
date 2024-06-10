@@ -1,6 +1,7 @@
 .env
 .envrc
 .gren
+.obsidian
 .prettynice
 *.db
 *.db-*
