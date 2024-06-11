@@ -34,8 +34,9 @@
 * [ ] Offline-first PWA (see below)
 * [ ] Announce
 * [ ] "Note tasks"
- * [ ] Work like taskfiles, but with gren node
- * [ ] Gren FileSystem.watch to keep task database updated
+  * [ ] Work like taskfiles, but with gren node
+  * [ ] Gren FileSystem.watch to keep task database updated
+* [ ] Template tasks: specify default options and content for new tags in the same project
 
 ## Offline and Syncing
 
