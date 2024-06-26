@@ -7,7 +7,7 @@
 * [X] fly deployment
 * [X] basic auth headers
 * [X] fly deploy failing. Moved to render
-* [ ] == back to text-based again? use Obsidian for mobile ==
+* [ ] == back to text-based again? use Obsidian sync for mobile ==
 * [ ] move basic auth to a package (will need it on pencils) see [http-basic-auth](https://github.com/blaix/http-basic-auth)
 * [ ] ws4sqlite: See https://github.com/proofrock/ws4sqlite/discussions/47
 * [ ] Move to hetzner: use blog posts as guide (see "Move to hetzner" section of pencils TODO)
