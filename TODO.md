@@ -11,6 +11,8 @@
   * [ ] Release gren-tui update
   * [ ] Update gren.json to point to published packages
 * [ ] Recreate (and expand on) functionality of rust version:
+  * [ ] frontmatter that works better in obsidian
+  * [ ] `dia` lists files
   * [ ] `dia` lists files in order of priority
   * [ ] fuzzy find file in list
   * [ ] choices after selecting file:
@@ -59,4 +61,4 @@
 
 ## Future Ideas / Questions
 
-* [ ] Mobile app? See attempts at gleam/lustre+ionic: https://github.com/blaix/tasker-lustre/blob/main/src/tasker.gleam
+* [ ] Track history of file changes?
