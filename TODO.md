@@ -5,15 +5,28 @@
 * [X] gren-tui bugs:
     * [X] Whole screen gets cleared when view is rendered
     * [X] init command never gets run
+* [ ] Rename to doitanyway / dia (search project for "taskfile")
 * [ ] After node and core package releases in June:
   * [ ] Release gren-tui update
   * [ ] Update gren.json to point to published packages
-* [ ] Recreate functionality of rust version:
-  * [ ] Don't worry about it being 1-1...
+* [ ] Recreate (and expand on) functionality of rust version:
+  * [ ] `dia` lists files in order of priority
+  * [ ] fuzzy find file in list
+  * [ ] choices after selecting file:
+    * [ ] edit
+    * [ ] complete
+    * [ ] delete
+  * [ ] `dia daily`
+  * [ ] `dia tomorrow`
+  * [ ] `dia weekly`
+  * [ ] `dia monthly`
+  * [ ] `dia yearly`
+  * [ ] `dia oldest`
+  * [ ] `dia random`
   * [ ] ...see http://hentzia.com/blog/gtd-with-evernote-tldr.html
   * [ ] ...and http://hentzia.com/blog/gtd-with-evernote.html
 * [ ] Documentation:
-  * [ ] TASKFILES_HOME
+  * [ ] DIA_HOME
 * [ ] Compare speed to rust version
 * [ ] ^ Decide on rust vs gren vs something else
 * [ ] If NOT gren version, move TODOs below to whatever is the new version
