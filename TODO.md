@@ -5,7 +5,7 @@
 * [X] gren-tui bugs:
     * [X] Whole screen gets cleared when view is rendered
     * [X] init command never gets run
-* [ ] Rename to doitanyway / dia (search project for "taskfile")
+* [X] Rename to doitanyway / dia (search project for "taskfile")
 * [ ] GPL?
 * [ ] After node and core package releases in June:
   * [ ] Release gren-tui update
