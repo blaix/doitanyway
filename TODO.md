@@ -11,7 +11,7 @@
   * [ ] Release gren-tui update
   * [ ] Update gren.json to point to published packages
 * [ ] Recreate (and expand on) functionality of rust version:
-  * [ ] frontmatter that works better in obsidian
+  * [ ] frontmatter that works better in obsidian. Probably yaml :(
   * [ ] `dia` lists files
   * [ ] `dia` lists files in order of priority
   * [ ] fuzzy find file in list
