@@ -28,6 +28,7 @@
   * [ ] `dia random`
   * [ ] ...see http://hentzia.com/blog/gtd-with-evernote-tldr.html
   * [ ] ...and http://hentzia.com/blog/gtd-with-evernote.html
+  * [ ] Nice way to organize code into command line arguments with automatic help and nice error messages (run rust version with the first few letters of a command for an example)
 * [ ] Documentation:
   * [ ] DIA_HOME
 * [ ] Compare speed to rust version
