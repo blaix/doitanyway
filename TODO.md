@@ -5,7 +5,7 @@
 * [X] gren-tui bugs:
 * [X] Rename to doitanyway / dia (search project for "taskfile")
 * [X] GPL
-* [o] After node and core package releases in June:
+* [ ] After node and core package releases in June:
     * [X] Release gren-tui update
     * [ ] Update gren.json to point to published packages
 * [ ] Sync server
@@ -14,7 +14,7 @@
     * [ ] mobile version....
 * [ ] Recreate (and expand on) functionality of rust version:
     * [ ] frontmatter that works better in obsidian. Probably yaml :(
-    * [ ] `dia` lists files
+    * [ ] `dia` lists files with [fzf](https://github.com/junegunn/fzf)-style picker (create vid working on this?)
     * [ ] `dia` lists files in order of priority
     * [ ] fuzzy find file in list
     * [ ] choices after selecting file:
