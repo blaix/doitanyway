@@ -11,7 +11,7 @@
 * [ ] Sync server
     * [ ] Sync using git or [google's algorithm that's obsidian uses](https://github.com/google/diff-match-patch)
     * [ ] NEVER overwrite a file on conflicts, create multiple versions that are visible to dia somehow
-    * [ ] mobile version....
+    * [ ] mobile version.... Flutter?
 * [ ] Recreate (and expand on) functionality of rust version:
     * [ ] frontmatter that works better in obsidian. Probably yaml :(
     * [ ] `dia` lists files with [fzf](https://github.com/junegunn/fzf)-style picker (create vid working on this?)
