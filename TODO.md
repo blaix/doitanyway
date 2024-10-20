@@ -15,6 +15,7 @@
 * [ ] Recreate (and expand on) functionality of rust version:
     * [ ] frontmatter that works better in obsidian. Probably yaml :(
     * [ ] `dia` lists files with [fzf](https://github.com/junegunn/fzf)-style picker (create vid working on this?)
+    * [ ] create a shell script to open file with [obsidian url](https://help.obsidian.md/Extending+Obsidian/Obsidian+URI)
     * [ ] `dia` lists files in order of priority
     * [ ] fuzzy find file in list
     * [ ] choices after selecting file:
