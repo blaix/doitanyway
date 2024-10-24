@@ -1,0 +1,78 @@
+module Experiment exposing (..)
+
+type alias Task =
+    { id : String
+    , changesetId : String
+    , created : Posix
+    , updated : Posix
+    , title : String
+    , note : String -- ideally an obsidian link
+    , when : Array When
+    , context : Array Context
+    , availableAt : Posix
+    , dueAt : Posix
+    , pauseUntil : Posix
+    , priority : Priority
+    }
+
+
+type alias Changeset =
+    { id : String
+    , parentId : String
+    , taskId : String
+    , timestamp : Posix
+    , title : Maybe String
+    , note : String -- ideally an obsidian link
+    , when : Array When
+    , context : Array Context
+    , availableAt : Posix
+    , dueAt : Posix
+    , pauseUntil : Posix
+    , priority : Priority
+    }
+
+
+type When
+    = ThisMorning
+    | Today
+    | ThisEvening
+    | Anytime
+    | FreeTime
+
+
+type Priority
+    = Now
+    | Must
+    | Should
+    | Want
+
+
+{-
+
+Sever is source of truth.
+
+Changesets are per task.
+The examples and algorithms are for _each_ task's changeset.
+
+Server:  A -> B -> C1 -> D1 -> E1 -> F1
+              |
+Offline:      + -> C2 -> (subsequent offline changes are merged into C2)
+
+Coming online:
+
+1. Query changesets after B
+2. Merge C1 -> F1 into 1 changeset M1
+4. Compare C2 to M, for each field that conflicts:
+    a. update C2 with whatever change is newer
+    b. update C2 by appending to note with a description of the conflict resolution, including old and new values
+5. Apply updated changeset
+6. Post updated changeset
+
+Posting changesets:
+
+1. If the parent is not the latest changeset on the server, receive a conflict response, and:
+    a. Go through the "coming online" algorithm above
+    b. Try again and repeat if necesarry
+2. Changeset is persisted and ideally connected clients are notified there's a new changeset.
+
+-}

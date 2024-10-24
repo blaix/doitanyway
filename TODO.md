@@ -5,6 +5,7 @@
 * [X] gren-tui bugs:
 * [X] Rename to doitanyway / dia (search project for "taskfile")
 * [X] GPL
+* [ ] Detour: see `src/Experiment.gren`
 * [ ] After node and core package releases in June:
     * [X] Release gren-tui update
     * [ ] Update gren.json to point to published packages
